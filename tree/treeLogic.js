@@ -35,17 +35,20 @@ function specialCommands(fromNumber, incomingMsg, res)
   // Handle special commands
   //
   let stopLoop = false;
+  // Resets the user state
   if(incomingMsg === '!reset')
   {
     console.log(fromNumber+' requested reset!');
     state.initUser(fromNumber);
   }
-  if(incomingMsg === '!status')
+  // Sends a copy of the state variable
+  if(incomingMsg === '!state')
   {
-    resMsg = JSON.stringify(state, null, 2);
+    resMsg = JSON.stringify(state.getJSON(), null, 2);
     SMS.respond(resMsg, res);
     stopLoop = true;
   }
+  // Skips inital questions
   if(incomingMsg === '!skip')
   {
     // Instead of updating to start, update to phone model

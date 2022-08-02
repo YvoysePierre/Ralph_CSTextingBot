@@ -27,12 +27,17 @@ async function sendAdmin(body="Live long and prosper!")
 // Respond to an incoming SMS
 async function respond(msg, res)
 {
-  const twiml = new MessagingResponse();
-  twiml.message(msg);
-  res.writeHead(200, { 'Content-Type': 'text/xml' });
-  res.end(twiml.toString());
-  console.log('Sent Msg:');
-  console.log(msg);
+    if(!res)
+    {
+        console.log('Missing res');
+        return;
+    }
+    const twiml = new MessagingResponse();
+    twiml.message(msg);
+    res.writeHead(200, { 'Content-Type': 'text/xml' });
+    res.end(twiml.toString());
+    console.log('Sent Msg:');
+    console.log(msg);
 }
 
 module.exports = {

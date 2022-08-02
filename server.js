@@ -27,7 +27,7 @@ app.post('/sms', async (req, res) => {
 
   // Check/Run special commands
   // And stop the loop if needed
-  const stopLoop = tree.specialCommands(fromNumber, incomingMsg);
+  const stopLoop = tree.specialCommands(fromNumber, incomingMsg, res);
   if(stopLoop){return;}
   
   // Check if user is on an inital question

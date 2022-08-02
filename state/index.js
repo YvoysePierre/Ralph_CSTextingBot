@@ -72,7 +72,7 @@ function userExists(fromNumber)
 }
 
 
-function getStateJSON()
+function getJSON()
 {
     return state;
 }
