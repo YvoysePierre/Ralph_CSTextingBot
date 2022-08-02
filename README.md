@@ -58,6 +58,10 @@ The file `/server.js` is the main entry point for the chat bot. Run this to star
 
 ## Special Bot Commands
 
+`!reset` - Resets your user state
+`!state` - Responds with the global state in JSON format
+`!skip`  - Skips the inital questions 
+
 ## Useful Docker Commands
 ```
 docker build -t matdombrock/sms-bot .
