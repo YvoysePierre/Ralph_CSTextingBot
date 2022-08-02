@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const flowTree = require('./flowTree');
+const flowTree = require('../tree/flowTree');
 
 let state = {
 

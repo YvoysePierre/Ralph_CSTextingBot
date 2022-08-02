@@ -1,12 +1,8 @@
-// Download the helper library from https://www.twilio.com/docs/node/install
-// Find your Account SID and Auth Token at twilio.com/console
-// and set the environment variables. See http://twil.io/secure
-const {accountSid, authToken, senderNum, adminNum} = require('./config');
-
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const senderNum = process.env.TWILIO_NUMBER;
-// const adminNum = process.env.ADMIN_NUMBER;
+//
+// Wrapper over the Twilio API
+//
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const {accountSid, authToken, senderNum, adminNum} = require('../config');
 const client = require('twilio')(accountSid, authToken);
 
 // Send a Generic SMS message to anyone
@@ -28,9 +24,21 @@ async function sendAdmin(body="Live long and prosper!")
     return res;
 }
 
+// Respond to an incoming SMS
+async function respond(msg, res)
+{
+  const twiml = new MessagingResponse();
+  twiml.message(msg);
+  res.writeHead(200, { 'Content-Type': 'text/xml' });
+  res.end(twiml.toString());
+  console.log('Sent Msg:');
+  console.log(msg);
+}
+
 module.exports = {
     send,
-    sendAdmin
+    sendAdmin,
+    respond
 }
 
 
