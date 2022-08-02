@@ -1,0 +1,24 @@
+{
+    "body": "Sent from your Twilio trial account - This is the ship that made the Kessel Run in fourteen parsecs?",
+    "numSegments": "1",
+    "direction": "outbound-api",
+    "from": "+19403505880",
+    "to": "+13602248958",
+    "dateUpdated": "2022-08-02T03:00:12.000Z",
+    "price": null,
+    "errorMessage": null,
+    "uri": "/2010-04-01/Accounts/ACe9740307b473cc0c73efb1b50dc69f43/Messages/SM7f08f424f602471b805beda3d825c212.json",
+    "accountSid": "ACe9740307b473cc0c73efb1b50dc69f43",
+    "numMedia": "0",
+    "status": "queued",
+    "messagingServiceSid": null,
+    "sid": "SM7f08f424f602471b805beda3d825c212",
+    "dateSent": null,
+    "dateCreated": "2022-08-02T03:00:12.000Z",
+    "errorCode": null,
+    "priceUnit": "USD",
+    "apiVersion": "2010-04-01",
+    "subresourceUris": {
+      "media": "/2010-04-01/Accounts/ACe9740307b473cc0c73efb1b50dc69f43/Messages/SM7f08f424f602471b805beda3d825c212/Media.json"
+    }
+  }
