@@ -34,7 +34,7 @@ app.post('/sms', async (req, res) => {
   // If so record response to user data
   tree.initQuestions(fromNumber, incomingMsg);
 
-  // check if the user is set to a valid node
+  // Check if the user is set to a valid node
   // caches bugs
   if(!tree.validNode(fromNumber)){return;}
 
