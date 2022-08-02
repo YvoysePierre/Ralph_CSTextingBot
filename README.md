@@ -56,6 +56,8 @@ The `/config.js` file defined the configuration of the chat bot as well as any n
 ## Server
 The file `/server.js` is the main entry point for the chat bot. Run this to start the bot. 
 
+## Special Bot Commands
+
 ## Useful Docker Commands
 ```
 docker build -t matdombrock/sms-bot .
