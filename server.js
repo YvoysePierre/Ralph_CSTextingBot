@@ -3,51 +3,15 @@ const express = require('express');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
 
-const fs = require('fs');
+const state = require('./state');
 
-const flowTree = require('./flowTree');
+//const logger = require('./logger');
+
 const sendSMS = require('./sendSMS');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-let state = {
-
-}
-function dumpState(){
-  fs.writeFileSync(__dirname+'/state-dump.json', JSON.stringify(state, null, 2));
-}
-function initUserState(fromNumber)
-{
-  state[fromNumber] = {
-    phone: fromNumber,
-    node: 'init',
-    email: 'unknown',
-    time: Date.now(),
-    location: 'unknown',
-    walkbook: 'unknown',
-    precinct: 'unknown',
-    phoneModel: 'unknown',
-  };
-  dumpState();
-}
-function updateUserNode(fromNumber, newNode)
-{
-  if(flowTree[newNode])
-  {
-    state[fromNumber].node = newNode;
-    return;
-  }
-  console.log('Can not find node: '+newNode);
-}
-
-function getCurrentNode(fromNumber)
-{
-  return flowTree[state[fromNumber].node];
-}
-
 
 async function respond(msg, res)
 {
@@ -55,112 +19,137 @@ async function respond(msg, res)
   twiml.message(msg);
   res.writeHead(200, { 'Content-Type': 'text/xml' });
   res.end(twiml.toString());
+  console.log('Sent Msg:');
+  console.log(msg);
 }
 
-app.post('/sms', async (req, res) => {
-  const fromNumber = req.body['From'];
-
+function logMsg(fromNumber, req)
+{
   console.log('\r\n///////');
   console.log('New message from: '+fromNumber);
   console.log(req.body['Body']);
-  if(!state[fromNumber])
+}
+
+function checkUser(fromNumber)
+{
+  if(!state.userExists(fromNumber))
   {
     // We have a new user
-    initUserState(fromNumber);
+    state.initUser(fromNumber);
+    console.log('New Contact From: '+fromNumber);
   }
-  console.log('Current User Node: '+state[fromNumber].node);
+  console.log('Current User Node: '+state.getUserNodeString(fromNumber));
+}
 
-  let resMsg = 'init_msg';
-
+function parseMsg(req)
+{
   // Get incoming msg
   let incomingMsg = req.body.Body;
   incomingMsg = incomingMsg.toLowerCase();
+  const fromNumber = req.body['From'];
+  return {fromNumber, incomingMsg};
+}
 
+function specialCommands(fromNumber, incomingMsg)
+{
   //
   // Handle special commands
   //
+  let stopLoop = false;
   if(incomingMsg === '!reset')
   {
     console.log(fromNumber+' requested reset!');
-    initUserState(fromNumber);
+    state.initUser(fromNumber);
   }
   if(incomingMsg === '!status')
   {
     resMsg = JSON.stringify(state, null, 2);
     respond(resMsg, res);
-    return;
+    stopLoop = true;
   }
   if(incomingMsg === '!skip')
   {
     // Instead of updating to start, update to phone model
     // Which is the last init question
     // Otherwise the command will be treated as an answer to the first question
-    updateUserNode(fromNumber, 'init_phone_model');
+    state.updateUserNode(fromNumber, 'init_phone_model');
     state[fromNumber].email = 'skipped';
     state[fromNumber].location = 'skipped';
     state[fromNumber].walkbook = 'skipped';
     state[fromNumber].precinct = 'skipped';
     state[fromNumber].phoneModel = 'skipped';
   }
+  return stopLoop;
+}
+
+function initQuestions(fromNumber, incomingMsg)
+{
   //
   // Handle init questions
   //
-  if(state[fromNumber].node === 'init_email')
+  if(state.getUserNodeString(fromNumber) === 'init_email')
   {
-    state[fromNumber].email = incomingMsg;
+    state.updateUserData(fromNumber, 'email', incomingMsg);
     console.log('Collected email from '+fromNumber+' as: '+incomingMsg);
   }
-  if(state[fromNumber].node === 'init_location')
+  if(state.getUserNodeString(fromNumber) === 'init_location')
   {
-    state[fromNumber].location = incomingMsg;
+    state.updateUserData(fromNumber, 'location', incomingMsg);
     console.log('Collected location from '+fromNumber+' as: '+incomingMsg);
   }
-  if(state[fromNumber].node === 'init_walkbook')
+  if(state.getUserNodeString(fromNumber) === 'init_walkbook')
   {
-    state[fromNumber].walkbook = incomingMsg;
+    state.updateUserData(fromNumber, 'walkbook', incomingMsg);
     console.log('Collected walkbook from '+fromNumber+' as: '+incomingMsg);
   }
-  if(state[fromNumber].node === 'init_precinct')
+  if(state.getUserNodeString(fromNumber) === 'init_precinct')
   {
-    state[fromNumber].precinct = incomingMsg;
+    state.updateUserData(fromNumber, 'precinct', incomingMsg);
     console.log('Collected precinct from '+fromNumber+' as: '+incomingMsg);
   }
-  if(state[fromNumber].node === 'init_phone_model')
+  if(state.getUserNodeString(fromNumber) === 'init_phone_model')
   {
-    state[fromNumber].phoneModel = incomingMsg;
+    state.updateUserData(fromNumber, 'phoneModel', incomingMsg);
     console.log('Collected phone model from '+fromNumber+' as: '+incomingMsg);
   }
+}
 
-  
-
+function validNode(fromNumber)
+{
   // Ensure we have a valid node
-  if(!getCurrentNode(fromNumber))
+  if(!state.getUserNode(fromNumber))
   {
-    console.log('Missing node: '+state[fromNumber].node);
-    return;
+    console.log('Missing node: '+state.getUserNodeString(fromNumber));
+    return false;
   }
+  return true;
+}
 
+function handleYesNo(fromNumber, incomingMsg)
+{
   // Setup yes bool
   const yes = incomingMsg.includes('y');
 
   // Move user to next flow pos
   if(yes)
   {
-    let targetNode = getCurrentNode(fromNumber).l;
-    updateUserNode(fromNumber, targetNode);
-    //state[fromNumber] = flowTree[state[fromNumber]].l;  
+    let targetNode = state.getUserNode(fromNumber).l;
+    state.updateUserNode(fromNumber, targetNode);
   }
   else
   {
-    let targetNode = getCurrentNode(fromNumber).r;
-    updateUserNode(fromNumber, targetNode);
-    //state[fromNumber] = flowTree[state[fromNumber]].r;  
+    let targetNode = state.getUserNode(fromNumber).r;
+    state.updateUserNode(fromNumber, targetNode);
   }
+  return yes;
+}
 
+async function endNodes(fromNumber, incomingMsg)
+{
   //
   // Handle End Nodes
   //
-  if(state[fromNumber].node === 'end_resolution_y')
+  if(state.getUserNodeString(fromNumber) === 'end_resolution_y')
   {
     //
     console.log(fromNumber+': reached the end of the tree...');
@@ -168,7 +157,7 @@ app.post('/sms', async (req, res) => {
     await sendSMS.sendAdmin(sendMsg);
     //initUserState(fromNumber);
   }
-  if(state[fromNumber].node === 'end_resolution_n')
+  if(state.getUserNodeString(fromNumber) === 'end_resolution_n')
   {
     //
     console.log(fromNumber+': reached the end of the tree...');
@@ -176,20 +165,46 @@ app.post('/sms', async (req, res) => {
     await sendSMS.sendAdmin(sendMsg);
     //initUserState(fromNumber);
   } 
+}
 
+function handleInitNode(fromNumber, incomingMsg)
+{
   // Init is special
-  if(state[fromNumber].node === 'init')
+  if(state.getUserNodeString(fromNumber) === 'init')
   {
     // Pass init node no matter what the original msg says
-    let targetNode = getCurrentNode(fromNumber).l;
-    updateUserNode(fromNumber, targetNode);
+    let targetNode = state.getUserNode(fromNumber).l;
+    state.updateUserNode(fromNumber, targetNode);
   }
+}
+
+app.post('/sms', async (req, res) => {
+
+  //const fromNumber = 
+  const {fromNumber, incomingMsg} = parseMsg(req);
+
+  logMsg(fromNumber, req);
+
+  checkUser(fromNumber);
+
+  const stopLoop = specialCommands(fromNumber, incomingMsg);
+  if(stopLoop){return;}
+  
+  initQuestions(fromNumber, incomingMsg);
+
+  if(!validNode(fromNumber)){return;}
+
+  handleYesNo(fromNumber, incomingMsg);
+
+  await endNodes(fromNumber, incomingMsg);
+
+  handleInitNode(fromNumber, incomingMsg);
 
   // Dump a copy of the current state
-  dumpState(); 
+  state.dump(); 
 
   // Return the final message
-  resMsg = getCurrentNode(fromNumber).text;
+  const resMsg = state.getUserNode(fromNumber).text;
   respond(resMsg, res);
 });
 
