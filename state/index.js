@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const flowTree = require('../tree/flowTree');
+const treeFlow = require('../tree/treeFlow');
 
 let state = {
 
@@ -27,7 +27,7 @@ function initUser(fromNumber)
 
 function updateUserNode(fromNumber, newNode)
 {
-  if(flowTree[newNode])
+  if(treeFlow[newNode])
   {
     state[fromNumber].node = newNode;
     return;
@@ -38,7 +38,7 @@ function getUserNode(fromNumber)
 {
     if(userExists(fromNumber))
     {
-        return flowTree[state[fromNumber].node];
+        return treeFlow[state[fromNumber].node];
     }
     console.log('Can not find state for: '+fromNumber);
 }
