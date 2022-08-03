@@ -11,13 +11,21 @@ This will cause Twilio to send a request (web hook) to the express server at the
 3. Install NPM packages
 4. Run `server.js`
 
+## Run
+
+Run in Tmux.
+
+```bash
+node server | tee -a server.log
+```
+
 ## Docker
 This project runs on a custom docker container. This can be built from the tools in `/docker` or downloaded from Docker Hub at `matdombrock/sms-bot`. The Docker images does NOT contain the private repo code. 
 
 ## SMS
 SMS integration happens via the Twilio API using a the wrapper inside `/SMS` to send messages.
 
-Reciving messages happens through the webhook at `/sms` mentioned above. 
+Receiving messages happens through the webhook at `/sms` mentioned above. 
 
 ## State
 The state of the app is stored with a data structure that looks something like this:
