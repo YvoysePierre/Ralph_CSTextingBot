@@ -50,6 +50,15 @@ Each node has an `l` and `r` pointer which point to another node.
 
 The tree logic is defined in `/tree/treeLogic.js`. This contains all of the app behavior that is related to the binary tree. 
 
+## Validating Nodes
+Since the tree definitions are a little hard to validate by hand, I wrote a tool to do this automatically. 
+
+Essentially the tool checks to make sure the children (`l` and `r` nodes) of each node actually exist. 
+
+This runs automatically when the bot starts and the bot will refuse to start if this check does not pass. It would crash eventually if it didn't refuse to start. 
+
+This can also be run manually with `node /tree/validateNodes`.
+
 ## Config
 The `/config.js` file defined the configuration of the chat bot as well as any needed credentials. 
 
