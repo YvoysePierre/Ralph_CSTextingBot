@@ -40,6 +40,7 @@ app.post('/sms', async (req, res) => {
 
   // Check if the user responded yes or no
   // Defualts to no
+  // Here is where we traverse the tree
   tree.YesNo(fromNumber, incomingMsg);
 
   // Check if we are on an end node
