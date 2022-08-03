@@ -69,6 +69,10 @@ The server provides an web hook endpoint for the Twilio API to connect to at `/s
 
 The server also provides the admin API endpoints.
 
+If the server IP address changes, this needs to be changed on the Twilio dashboard to reflect the new IP. This can be done under phone number settings in the incoming SMS section. 
+
+[Twilio Console](https://console.twilio.com/us1/develop/phone-numbers/manage/incoming?frameUrl=%2Fconsole%2Fphone-numbers%2Fincoming%2FPN59a01ef2f137b9dd1ece552cbd3a01b2%3F__override_layout__%3Dembed%26bifrost%3Dtrue%26x-target-region%3Dus1)
+
 ## Admin API Commands
 Since the bot is essentially just a web server, I have created a simple API that allows the admin to control the bot and retrieve info about the bot. 
 
@@ -84,17 +88,22 @@ The currently available endpoints are:
 
 Right now, these can be accessed at the following links:
 
-http://159.223.141.60:3001/state
+[STATE](http://159.223.141.60:3001/state)
 
-http://159.223.141.60:3001/stateClear
+[STATE CLEAR](http://159.223.141.60:3001/stateClear)
 
-http://159.223.141.60:3001/log
+[LOG](http://159.223.141.60:3001/log)
 
-http://159.223.141.60:3001/logDownload
+[LOG DOWNLOAD](http://159.223.141.60:3001/logDownload)
 
-http://159.223.141.60:3001/logClear
+[LOG CLEAR](http://159.223.141.60:3001/logClear)
 
 Right now, there is nothing stopping anyone from using these endpoints. That being said they would have to guess the IP address. There is no way to figure it out just by sending and receiving texts from the bot. 
+
+### Web Interface
+I also added a SUPER simple web interface for this. This is at `/`. Currently:
+
+[WEB INTERFACE](http://159.223.141.60:3001/)
 
 ## Special Bot Commands
 Similar to the admin API endpoints, the bot has a few special admin commands that can give some valuable information without accessing the API. 
@@ -105,10 +114,7 @@ At this time there is nothing to prevent regular users from using these commands
 `!state` - Responds with the global state in JSON format
 `!skip`  - Skips the initial questions 
 
-### Web Interface
-I also added a SUPER simple web interface for this. This is at `/`. Currently:
 
-http://159.223.141.60:3001/
 
 ## Useful Docker Commands
 ```
