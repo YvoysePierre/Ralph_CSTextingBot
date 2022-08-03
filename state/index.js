@@ -77,6 +77,11 @@ function getJSON()
     return state;
 }
 
+function getUserJSON(fromNumber)
+{
+    return state[fromNumber]
+}
+
 module.exports = {
     dump,
     initUser,
@@ -86,4 +91,5 @@ module.exports = {
     updateUserData,
     userExists,
     getJSON,
+    getUserJSON
 };
