@@ -110,11 +110,9 @@ Similar to the admin API endpoints, the bot has a few special admin commands tha
 
 At this time there is nothing to prevent regular users from using these commands aside from the fact that are secret. 
 
-`!reset` - Resets your user state (not the global state)
-`!state` - Responds with the global state in JSON format
-`!skip`  - Skips the initial questions 
-
-
+* `!reset` - Resets your user state (not the global state)
+* `!state` - Responds with the global state in JSON format
+* `!skip`  - Skips the initial questions 
 
 ## Useful Docker Commands
 ```
