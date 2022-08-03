@@ -95,6 +95,20 @@ module.exports = {
         l:'end_resolution_y',
         r:'end_resolution_n',
     },
+    end_cash_in:{
+        text: `You are cashing in. (idk what this should say) 
+        ${nl}Does this resolve your issue?`,
+        l:'end_resolution_y',
+        r:'end_resolution_n',
+    },
+    end_explain_happy_profit:{
+        text: `This is an explanation about happy profit. (idk what this should say) 
+        ${nl}Does this resolve your issue?`,
+        l:'end_resolution_y',
+        r:'end_resolution_n',
+    },
+
+    // Resolution nodes
     end_resolution_n:{
         text: `Sorry, that's all I know how to do right now... 
         ${nl}I guess I will just restart now.`,

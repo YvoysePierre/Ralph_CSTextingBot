@@ -37,7 +37,7 @@ state[fromNumber] = {
 The state can not be mutated directly and must be accessed via the `state` wrapper in `/state`. 
 
 ## Tree
-The main chat bot logic is defined as a binary tree. The nodes are defined in `/tree/treeFlow.js` as simple JSON objects like this:
+The main chat bot logic is defined as a binary tree. The nodes are defined in `/tree/tree.js` as simple JSON objects like this:
 ```js
 data_save:{
     text: `Does your data save?`,

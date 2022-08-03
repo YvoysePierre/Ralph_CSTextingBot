@@ -41,7 +41,7 @@ app.post('/sms', async (req, res) => {
   // Check if the user responded yes or no
   // Defualts to no
   // Here is where we traverse the tree
-  tree.YesNo(fromNumber, incomingMsg);
+  tree.yesNo(fromNumber, incomingMsg);
 
   // Check if we are on an end node
   // and act accordingly
@@ -64,5 +64,9 @@ app.post('/sms', async (req, res) => {
 });
 
 http.createServer(app).listen(port, () => {
+  if(!tree.ensureValidNodes()){
+    console.log('Dying due to invalid nodes!');
+    return;
+  }
   console.log('Express server listening on port: '+port);
 });

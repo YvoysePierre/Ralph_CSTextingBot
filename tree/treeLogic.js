@@ -1,6 +1,31 @@
 
 const state = require('../state');
 const SMS = require('../SMS');
+const validateNodes = require('../tree/validateNodes');
+
+function ensureValidNodes()
+{
+    const res = validateNodes();
+    if(res.length > 0)
+    {
+        console.log('Issues:');
+        console.log(JSON.stringify(res, null, 2));
+        return false;
+    }
+    console.log('All nodes appear valid. No issues found!');
+    return true;
+}
+
+function validNode(fromNumber)
+{
+  // Ensure we have a valid node
+  if(!state.getUserNode(fromNumber))
+  {
+    console.log('Missing node: '+state.getUserNodeString(fromNumber));
+    return false;
+  }
+  return true;
+}
 
 function logMsg(fromNumber, req)
 {
@@ -96,18 +121,7 @@ function initQuestions(fromNumber, incomingMsg)
   }
 }
 
-function validNode(fromNumber)
-{
-  // Ensure we have a valid node
-  if(!state.getUserNode(fromNumber))
-  {
-    console.log('Missing node: '+state.getUserNodeString(fromNumber));
-    return false;
-  }
-  return true;
-}
-
-function YesNo(fromNumber, incomingMsg)
+function yesNo(fromNumber, incomingMsg)
 {
   // Setup yes bool
   const yes = incomingMsg.includes('y');
@@ -173,15 +187,16 @@ function getUserNode(fromNumber)
 
 
 module.exports = {
-    parseMsg,
-    logMsg,
-    checkUser,
-    specialCommands,
-    initQuestions,
-    validNode,
-    YesNo,
-    endNodes,
-    handleInitNode,
-    dumpState,
-    getUserNode,
+  ensureValidNodes,
+  validNode,
+  parseMsg,
+  logMsg,
+  checkUser,
+  specialCommands,
+  initQuestions,
+  yesNo,
+  endNodes,
+  handleInitNode,
+  dumpState,
+  getUserNode,
 }

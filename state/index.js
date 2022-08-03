@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const treeFlow = require('../tree/treeFlow');
+const tree = require('../tree/tree');
 
 let state = {
 
@@ -27,7 +27,7 @@ function initUser(fromNumber)
 
 function updateUserNode(fromNumber, newNode)
 {
-  if(treeFlow[newNode])
+  if(tree[newNode])
   {
     state[fromNumber].node = newNode;
     return;
@@ -38,7 +38,7 @@ function getUserNode(fromNumber)
 {
     if(userExists(fromNumber))
     {
-        return treeFlow[state[fromNumber].node];
+        return tree[state[fromNumber].node];
     }
     console.log('Can not find state for: '+fromNumber);
 }
@@ -85,5 +85,5 @@ module.exports = {
     getUserNodeString,
     updateUserData,
     userExists,
-    getStateJSON,
+    getJSON,
 };
