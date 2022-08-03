@@ -12,7 +12,7 @@ This will cause Twilio to send a request (web hook) to the express server at the
 4. Run `server.js`
 
 ## Docker
-This project runs on a custom docker container. This can be built from the tools in `/docker` or downloaded from Dockerhub at `matdombrock/sms-bot`. The Docker images does NOT contain the private repo code. 
+This project runs on a custom docker container. This can be built from the tools in `/docker` or downloaded from Docker Hub at `matdombrock/sms-bot`. The Docker images does NOT contain the private repo code. 
 
 ## SMS
 SMS integration happens via the Twilio API using a the wrapper inside `/SMS` to send messages.
@@ -48,7 +48,7 @@ data_save:{
 
 Each node has an `l` and `r` pointer which point to another node.
 
-The tree logic is defined in `/tree/treeLogic.js`. This contains all of the app behavior that is realted to the binary tree. 
+The tree logic is defined in `/tree/treeLogic.js`. This contains all of the app behavior that is related to the binary tree. 
 
 ## Config
 The `/config.js` file defined the configuration of the chat bot as well as any needed credentials. 
@@ -56,16 +56,14 @@ The `/config.js` file defined the configuration of the chat bot as well as any n
 ## Server
 The file `/server.js` is the main entry point for the chat bot. Run this to start the bot. 
 
-## Special Bot Commands
+The server provides an web hook endpoint for the Twilio API to connect to at `/sms`. This contains the main logic for the bot. 
 
-`!reset` - Resets your user state (not the global state)
-`!state` - Responds with the global state in JSON format
-`!skip`  - Skips the inital questions 
+The server also provides the admin API endpoints.
 
 ## Admin API Commands
-Since the bot is essentially just a web server, I have created a simple API that allows the admin to control the bot and retrive info about the bot. 
+Since the bot is essentially just a web server, I have created a simple API that allows the admin to control the bot and retrieve info about the bot. 
 
-To this API is available at `<ip_adress>:<port>/<endpoint_name>`. 
+To this API is available at `<ip_address>:<port>/<endpoint_name>`. 
 
 The currently available endpoints are:
 
@@ -86,6 +84,17 @@ http://159.223.141.60:3001/log
 http://159.223.141.60:3001/logDownload
 
 http://159.223.141.60:3001/logClear
+
+Right now, there is nothing stopping anyone from using these endpoints. That being said they would have to guess the IP address. There is no way to figure it out just by sending and receiving texts from the bot. 
+
+## Special Bot Commands
+Similar to the admin API endpoints, the bot has a few special admin commands that can give some valuable information without accessing the API. 
+
+At this time there is nothing to prevent regular users from using these commands aside from the fact that are secret. 
+
+`!reset` - Resets your user state (not the global state)
+`!state` - Responds with the global state in JSON format
+`!skip`  - Skips the initial questions 
 
 ### Web Interface
 I also added a SUPER simple web interface for this. This is at `/`. Currently:
