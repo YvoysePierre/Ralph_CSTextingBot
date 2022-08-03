@@ -10,6 +10,11 @@ function dump(){
     fs.writeFileSync(__dirname+'/state-dump.json', JSON.stringify(state, null, 2));
 }
 
+function clear()
+{
+    state = {};
+}
+
 function initUser(fromNumber)
 {
   state[fromNumber] = {
@@ -84,6 +89,7 @@ function getUserJSON(fromNumber)
 
 module.exports = {
     dump,
+    clear,
     initUser,
     updateUserNode,
     getUserNode,

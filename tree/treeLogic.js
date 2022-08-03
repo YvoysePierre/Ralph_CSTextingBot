@@ -30,6 +30,7 @@ function validNode(fromNumber)
 function logMsg(fromNumber, req)
 {
   console.log('\r\n///////');
+  console.log(new Date().toLocaleString('en-US', {timeZone: 'PST'}));
   console.log('New message from: '+fromNumber);
   console.log(req.body['Body']);
 }
@@ -60,32 +61,40 @@ function specialCommands(fromNumber, incomingMsg, res)
   // Handle special commands
   //
   let stopLoop = false;
-  // Resets the user state
-  if(incomingMsg === '!reset')
+  let isSpecial = incomingMsg.startsWith('!');
+  if(!isSpecial)
   {
-    console.log(fromNumber+' requested reset!');
-    state.initUser(fromNumber);
+    // This is not a special command
+    return stopLoop;
   }
-  // Sends a copy of the state variable
-  if(incomingMsg === '!state')
+  switch(incomingMsg)
   {
-    resMsg = JSON.stringify(state.getJSON(), null, 2);
-    SMS.respond(resMsg, res);
-    stopLoop = true;
-  }
-  // Skips inital questions
-  if(incomingMsg === '!skip')
-  {
-    // Instead of updating to start, update to phone model
-    // Which is the last init question
-    // Otherwise the command will be treated as an answer to the first question
-    state.updateUserNode(fromNumber, 'init_phone_model');
-    // Set user data to fixed
-    state.updateUserData(fromNumber, 'email', 'skipped');
-    state.updateUserData(fromNumber, 'location', 'skipped');
-    state.updateUserData(fromNumber, 'walkbook', 'skipped');
-    state.updateUserData(fromNumber, 'precinct', 'skipped');
-    state.updateUserData(fromNumber, 'phoneModel', 'skipped');
+    case '!reset':
+      console.log(fromNumber+' requested reset!');
+      state.initUser(fromNumber);
+      break;
+    case '!state':
+      resMsg = JSON.stringify(state.getJSON(), null, 2);
+      SMS.respond(resMsg, res);
+      stopLoop = true;
+      break;
+    case '!skip':
+      // Instead of updating to start, update to phone model
+      // Which is the last init question
+      // Otherwise the command will be treated as an answer to the first question
+      state.updateUserNode(fromNumber, 'init_phone_model');
+      // Set user data to fixed
+      state.updateUserData(fromNumber, 'email', 'skipped');
+      state.updateUserData(fromNumber, 'location', 'skipped');
+      state.updateUserData(fromNumber, 'walkbook', 'skipped');
+      state.updateUserData(fromNumber, 'precinct', 'skipped');
+      state.updateUserData(fromNumber, 'phoneModel', 'skipped');
+      break;
+    default:
+      console.log('Can not find special command: '+incomingMsg);
+      console.log('Skipping this response!');
+      stopLoop = true;
+      break;
   }
   return stopLoop;
 }
@@ -95,30 +104,28 @@ function initQuestions(fromNumber, incomingMsg)
   //
   // Handle init questions
   //
-  if(state.getUserNodeString(fromNumber) === 'init_email')
+  switch(state.getUserNodeString(fromNumber))
   {
-    state.updateUserData(fromNumber, 'email', incomingMsg);
-    console.log('Collected email from '+fromNumber+' as: '+incomingMsg);
-  }
-  if(state.getUserNodeString(fromNumber) === 'init_location')
-  {
-    state.updateUserData(fromNumber, 'location', incomingMsg);
-    console.log('Collected location from '+fromNumber+' as: '+incomingMsg);
-  }
-  if(state.getUserNodeString(fromNumber) === 'init_walkbook')
-  {
-    state.updateUserData(fromNumber, 'walkbook', incomingMsg);
-    console.log('Collected walkbook from '+fromNumber+' as: '+incomingMsg);
-  }
-  if(state.getUserNodeString(fromNumber) === 'init_precinct')
-  {
-    state.updateUserData(fromNumber, 'precinct', incomingMsg);
-    console.log('Collected precinct from '+fromNumber+' as: '+incomingMsg);
-  }
-  if(state.getUserNodeString(fromNumber) === 'init_phone_model')
-  {
-    state.updateUserData(fromNumber, 'phoneModel', incomingMsg);
-    console.log('Collected phone model from '+fromNumber+' as: '+incomingMsg);
+    case 'init_email':
+      state.updateUserData(fromNumber, 'email', incomingMsg);
+      console.log('Collected email from '+fromNumber+' as: '+incomingMsg);
+      break;
+    case 'init_location':
+      state.updateUserData(fromNumber, 'location', incomingMsg);
+      console.log('Collected location from '+fromNumber+' as: '+incomingMsg);
+      break;
+    case 'init_walkbook':
+      state.updateUserData(fromNumber, 'walkbook', incomingMsg);
+      console.log('Collected walkbook from '+fromNumber+' as: '+incomingMsg);
+      break;
+    case 'init_precinct':
+      state.updateUserData(fromNumber, 'precinct', incomingMsg);
+      console.log('Collected precinct from '+fromNumber+' as: '+incomingMsg);
+      break;
+    case 'init_phone_model':
+      state.updateUserData(fromNumber, 'phoneModel', incomingMsg);
+      console.log('Collected phone model from '+fromNumber+' as: '+incomingMsg);
+      break;
   }
 }
 
@@ -176,12 +183,11 @@ function dumpState()
 {
     state.dump();
 }
+
 function getUserNode(fromNumber)
 {
     return state.getUserNode(fromNumber);
 }
-
-
 
 module.exports = {
   ensureValidNodes,
@@ -196,4 +202,4 @@ module.exports = {
   handleInitNode,
   dumpState,
   getUserNode,
-}
+};

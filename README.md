@@ -1,9 +1,9 @@
 # SMS BOT
-This is a NodeJS app. 
+This is a NodeJS app that runs in a Docker Image. The Docker Image is available on docker hub at `matdombrock/sms-bot`.
 
 Interaction happens when a user sends a text message to the given phone number. 
 
-This will cause Twilio to send a web hook to the express server at the `/sms` endpoint. 
+This will cause Twilio to send a request (web hook) to the express server at the `/sms` endpoint. 
 
 ## Setup
 1. Download/Run Docker Image
@@ -58,9 +58,39 @@ The file `/server.js` is the main entry point for the chat bot. Run this to star
 
 ## Special Bot Commands
 
-`!reset` - Resets your user state
+`!reset` - Resets your user state (not the global state)
 `!state` - Responds with the global state in JSON format
 `!skip`  - Skips the inital questions 
+
+## Admin API Commands
+Since the bot is essentially just a web server, I have created a simple API that allows the admin to control the bot and retrive info about the bot. 
+
+To this API is available at `<ip_adress>:<port>/<endpoint_name>`. 
+
+The currently available endpoints are:
+
+* `/state` - Get the bot state as a JSON object
+* `/stateClear` - Clear the global bot state (deletes all existing user profiles)
+* `/log` - Get the server log
+* `/logDownload` - Download a copy of the server log
+* `/logClear` - Clear the logs (if they get too long)
+
+Right now, these can be accessed at the following links:
+
+http://159.223.141.60:3001/state
+
+http://159.223.141.60:3001/stateClear
+
+http://159.223.141.60:3001/log
+
+http://159.223.141.60:3001/logDownload
+
+http://159.223.141.60:3001/logClear
+
+### Web Interface
+I also added a SUPER simple web interface for this. This is at `/`. Currently:
+
+http://159.223.141.60:3001/
 
 ## Useful Docker Commands
 ```
