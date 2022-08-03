@@ -80,11 +80,12 @@ function specialCommands(fromNumber, incomingMsg, res)
     // Which is the last init question
     // Otherwise the command will be treated as an answer to the first question
     state.updateUserNode(fromNumber, 'init_phone_model');
-    state[fromNumber].email = 'skipped';
-    state[fromNumber].location = 'skipped';
-    state[fromNumber].walkbook = 'skipped';
-    state[fromNumber].precinct = 'skipped';
-    state[fromNumber].phoneModel = 'skipped';
+    // Set user data to fixed
+    state.updateUserData(fromNumber, 'email', 'skipped');
+    state.updateUserData(fromNumber, 'location', 'skipped');
+    state.updateUserData(fromNumber, 'walkbook', 'skipped');
+    state.updateUserData(fromNumber, 'precinct', 'skipped');
+    state.updateUserData(fromNumber, 'phoneModel', 'skipped');
   }
   return stopLoop;
 }

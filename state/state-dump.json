@@ -1,9 +1,9 @@
 {
   "+13602248958": {
     "phone": "+13602248958",
-    "node": "init_location",
-    "email": "test@email.com",
-    "time": 1659438856876,
+    "node": "init_email",
+    "email": "unknown",
+    "time": 1659516266963,
     "location": "unknown",
     "walkbook": "unknown",
     "precinct": "unknown",
