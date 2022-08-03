@@ -1,12 +1,12 @@
 {
   "+13602248958": {
     "phone": "+13602248958",
-    "node": "init_email",
-    "email": "unknown",
-    "time": 1659516266963,
-    "location": "unknown",
-    "walkbook": "unknown",
-    "precinct": "unknown",
-    "phoneModel": "unknown"
+    "node": "end_resolution_n",
+    "email": "skipped",
+    "time": 1659516521664,
+    "location": "skipped",
+    "walkbook": "skipped",
+    "precinct": "skipped",
+    "phoneModel": "!skip"
   }
 }

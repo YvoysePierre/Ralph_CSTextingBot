@@ -148,19 +148,15 @@ async function endNodes(fromNumber, incomingMsg)
   //
   if(state.getUserNodeString(fromNumber) === 'end_resolution_y')
   {
-    //
     console.log(fromNumber+': reached the end of the tree...');
-    const sendMsg = JSON.stringify(state[fromNumber],null, 2);
+    const sendMsg = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
     await SMS.sendAdmin(sendMsg);
-    //initUserState(fromNumber);
   }
   if(state.getUserNodeString(fromNumber) === 'end_resolution_n')
   {
-    //
     console.log(fromNumber+': reached the end of the tree...');
-    const sendMsg = JSON.stringify(state[fromNumber],null, 2);
+    const sendMsg = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
     await SMS.sendAdmin(sendMsg);
-    //initUserState(fromNumber);
   } 
 }
 
