@@ -2,7 +2,7 @@
 // Wrapper over the Twilio API
 //
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const {accountSid, authToken, senderNum, adminNum} = require('../config');
+const {accountSid, authToken, senderNum, adminNums} = require('../config');
 const client = require('twilio')(accountSid, authToken);
 
 // Send a Generic SMS message to anyone
@@ -22,8 +22,13 @@ async function sendAdmin(body="Live long and prosper!")
     body = 'ADMIN MSG: \r\n'+body;
     console.log('Seinding an Admin MSG:');
     console.log(body);
-    const res = await send(adminNum, body);
-    return res;
+    let sendResults = [];
+    for(const adminNum of adminNums)
+    {
+        const res = await send(adminNum, body);
+        sendResults.push(res);
+    }
+    return sendResults;
 }
 
 // Respond to an incoming SMS

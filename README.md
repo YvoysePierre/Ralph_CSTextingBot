@@ -81,6 +81,14 @@ If the server IP address changes, this needs to be changed on the Twilio dashboa
 
 [Twilio Console](https://console.twilio.com/us1/develop/phone-numbers/manage/incoming?frameUrl=%2Fconsole%2Fphone-numbers%2Fincoming%2FPN59a01ef2f137b9dd1ece552cbd3a01b2%3F__override_layout__%3Dembed%26bifrost%3Dtrue%26x-target-region%3Dus1)
 
+## Admin Messages
+When a user reaches the end of the tree they will be at a "resolution node". There are 2 types of resolution node:
+
+* `resolution_y` - The user's issue was resolved. The admin is not notified.
+* `resolution_n` - The user's issue was NOT resolved. The admin IS notified.
+
+When the user's issue was not resolved, the bot will send a message to the admin number (set in `/config.js`). Right now, this will just send the current user state as JSON. In the future this will be a formatted text report. 
+
 ## Admin API Commands
 Since the bot is essentially just a web server, I have created a simple API that allows the admin to control the bot and retrieve info about the bot. 
 

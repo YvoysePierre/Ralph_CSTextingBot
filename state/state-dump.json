@@ -3,10 +3,20 @@
     "phone": "+13602248958",
     "node": "init_email",
     "email": "unknown",
-    "time": 1659519682990,
+    "time": 1659573494850,
     "location": "unknown",
     "walkbook": "unknown",
     "precinct": "unknown",
     "phoneModel": "unknown"
+  },
+  "+13602969556": {
+    "phone": "+13602969556",
+    "node": "init_email",
+    "email": "pierre.manis@gmail.com ",
+    "time": 1659573896667,
+    "location": "sheet 41 precinct 435 \naddress 342 1234 st",
+    "walkbook": "sheet 42",
+    "precinct": "402-3342",
+    "phoneModel": "samsung galaxy note"
   }
 }
