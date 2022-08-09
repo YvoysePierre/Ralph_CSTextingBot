@@ -5,6 +5,16 @@ Interaction happens when a user sends a text message to the given phone number.
 
 This will cause Twilio to send a request (web hook) to the express server at the `/sms` endpoint. 
 
+## Stack
+* Linux
+* [Docker](https://hub.docker.com/) 
+* [NodeJS](https://nodejs.dev/)
+* [ExpressJS](https://expressjs.com/) (NodeJS web server framework)
+* [Twilio API Wrapper](https://www.twilio.com/docs/sms/quickstart/node) (NodeJS API Wrapper)
+* Custom Bot Logic (NodeJS)
+* Binary Tree Definition (JSON)
+
+
 ## Setup
 1. Download/Run Docker Image
 2. Clone Repo
