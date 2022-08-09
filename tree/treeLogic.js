@@ -172,6 +172,9 @@ function handleInitNode(fromNumber, incomingMsg)
   // Init is special
   if(state.getUserNodeString(fromNumber) === 'init')
   {
+    // Send an admin message that user has entered the flow
+    const adminMsg = 'New user: '+fromNumber+' just initialized contact.'
+    SMS.sendAdmin(adminMsg);
     // Pass init node no matter what the original msg says
     let targetNode = state.getUserNode(fromNumber).l;
     state.updateUserNode(fromNumber, targetNode);
