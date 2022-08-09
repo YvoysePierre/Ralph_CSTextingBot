@@ -26,6 +26,7 @@ function initUser(fromNumber)
     walkbook: 'unknown',
     precinct: 'unknown',
     phoneModel: 'unknown',
+    history: [],
   };
   dump();
 }
@@ -39,6 +40,12 @@ function updateUserNode(fromNumber, newNode)
   }
   console.log('Can not find node: '+newNode);
 }
+
+function updateUserHistory(fromNumber, choice)
+{
+    state[fromNumber].history.push(choice);
+}
+// Gets the actual node data of the user's current node
 function getUserNode(fromNumber)
 {
     if(userExists(fromNumber))
@@ -47,6 +54,7 @@ function getUserNode(fromNumber)
     }
     console.log('Can not find state for: '+fromNumber);
 }
+// Gets the user's current node ID as a string
 function getUserNodeString(fromNumber)
 {
     if(userExists(fromNumber))
@@ -92,6 +100,7 @@ module.exports = {
     clear,
     initUser,
     updateUserNode,
+    updateUserHistory,
     getUserNode,
     getUserNodeString,
     updateUserData,

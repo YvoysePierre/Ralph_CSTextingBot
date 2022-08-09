@@ -134,6 +134,23 @@ function yesNo(fromNumber, incomingMsg)
   // Setup yes bool
   const yes = incomingMsg.includes('y');
 
+  //
+  // Update History:
+  //
+  // Get the first part of the node
+  // so we can know if we should save this response to history
+  // We don't want to save responses for init nodes here
+  const nodeString = state.getUserNodeString(fromNumber);
+  const nodePrefix = nodeString.split('_')[0];
+  // Also skip logging commands
+  const isCommand = incomingMsg.includes('!');
+  if(nodePrefix !== 'init' && isCommand === false)
+  {
+    const yesString = yes ? 'yes' : 'no';
+    const historyMsg = nodeString +': '+ yesString;
+    state.updateUserHistory(fromNumber, historyMsg);
+  }
+
   // Move user to next flow pos
   if(yes)
   {
@@ -145,6 +162,7 @@ function yesNo(fromNumber, incomingMsg)
     let targetNode = state.getUserNode(fromNumber).r;
     state.updateUserNode(fromNumber, targetNode);
   }
+  
   return yes;
 }
 
