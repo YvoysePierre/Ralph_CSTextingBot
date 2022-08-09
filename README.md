@@ -19,7 +19,7 @@ This will cause Twilio to send a request (web hook) to the express server at the
 1. Download/Run Docker Image
 2. Clone Repo
 3. Install NPM packages
-4. Run `server.js`
+4. Run `node server | tee -a server.log`
 
 ## Run
 
