@@ -1,3 +1,19 @@
+/*
+ This file contains the logical nodes for the bot's binary tree
+ Each node has a top level name like 'data_save'
+
+ Each node has 3 properties:
+ 'text' which defines the question text
+ 'l' which defines the name of the lop level 'yes' node
+ 'r' which defines the name of the lop level 'no' node
+
+ Each l and r node must match up to a real existing top level node
+
+ We also have the special 'nl' string which represents a new paragraph break
+ This can be used like `${nl}` anywhere in the 'text' property
+ Adding regular line breaks in your code editor will NOT add line breaks to the SMS content
+ You must use the 'nl' string instead. 
+*/
 const nl = '\r\n\r\n';
 module.exports = {
     init:{
