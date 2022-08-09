@@ -8,6 +8,7 @@ This will cause Twilio to send a request (web hook) to the express server at the
 ## Stack
 * Linux
 * [Docker](https://hub.docker.com/) 
+* [Tmux](https://github.com/tmux/tmux/wiki)
 * [NodeJS](https://nodejs.dev/)
 * [ExpressJS](https://expressjs.com/) (NodeJS web server framework)
 * [Twilio API Wrapper](https://www.twilio.com/docs/sms/quickstart/node) (NodeJS API Wrapper)
@@ -19,7 +20,8 @@ This will cause Twilio to send a request (web hook) to the express server at the
 1. Download/Run Docker Image
 2. Clone Repo
 3. Install NPM packages
-4. Run `node server | tee -a server.log`
+4. Create a new tmux pane and attach to the pane
+5. Run `node server | tee -a server.log`
 
 ## Run
 
@@ -28,6 +30,15 @@ Run in Tmux.
 ```bash
 node server | tee -a server.log
 ```
+
+## Logging
+Logging will happen automatically because of the `<...> | tee -a server.log` part of the run command. 
+
+This log path is hard coded into the bot as the location to read it's own log from. 
+
+This log is *appended* and not deleted when you start the bot. Clearing the log can be done just by deleting the existing log file. 
+
+A new log file will be created again automatically on the next run. 
 
 ## Docker
 This project runs on a custom docker container. This can be built from the tools in `/docker` or downloaded from Docker Hub at `matdombrock/sms-bot`. The Docker images does NOT contain the private repo code. 
