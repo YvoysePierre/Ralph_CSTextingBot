@@ -1,14 +1,35 @@
 /*
  This file contains the logical nodes for the bot's binary tree
+ 
+ Node Names:
+ 
  Each node has a top level name like 'data_save'
+ 
+ This name MUST be unique. 
+ 
+ This name MUST only start with `init_` if it is not a yes/no question
+ 'init_' nodes MUST have matching 'l' and 'r' pointers
 
- Each node has 3 properties:
+ The node names 'init' is a special node. It's 'text' will never be shown to the user. 
+ 
+ This name MUST only start with `end_` if it is the final node in a tree
+ 'end_' nodes MUST point to the 'end_resolution_n' and 'end_resolution_y' nodes
+ 
+ The 'end_resolution_n' and 'end_resolution_y' nodes are special nodes that trigger
+ admin messages and always return the user to the `init` node
+ 
+ Node Properties:
  'text' which defines the question text
  'l' which defines the name of the lop level 'yes' node
  'r' which defines the name of the lop level 'no' node
 
- Each l and r node must match up to a real existing top level node
+ Each 'l' and 'r' node must match up to a real existing top level node
 
+ 'l' corresponds to 'yes' and 'r' corresponds to 'no'
+
+ Any answer that does not start with the letter 'y' is determined to be a 'no' answer
+
+ Line Breaks:
  We also have the special 'nl' string which represents a new paragraph break
  This can be used like `${nl}` anywhere in the 'text' property
  Adding regular line breaks in your code editor will NOT add line breaks to the SMS content
