@@ -20,7 +20,7 @@ async function send(to="3602248958", body="Live long and prosper!")
 async function sendAdmin(body="Live long and prosper!")
 {
     body = 'ADMIN MSG: \r\n'+body;
-    console.log('Seinding an Admin MSG:');
+    console.log('Sending an Admin MSG:');
     console.log(body);
     let sendResults = [];
     for(const adminNum of adminNums)

@@ -156,28 +156,29 @@ async function endNodes(fromNumber, incomingMsg)
   if(state.getUserNodeString(fromNumber) === 'end_resolution_y')
   {
     console.log(fromNumber+': reached the end of the tree...');
-    const sendMsg = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
-    await SMS.sendAdmin(sendMsg);
+    const stateJSON = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
+    const adminMsg = 'User '+fromNumber+' has finished the flow with a resolution:\r\n'+stateJSON;
+    await SMS.sendAdmin(adminMsg);
+    state.initUser(fromNumber);
   }
   if(state.getUserNodeString(fromNumber) === 'end_resolution_n')
   {
     console.log(fromNumber+': reached the end of the tree...');
-    const sendMsg = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
-    await SMS.sendAdmin(sendMsg);
+    const stateJSON = JSON.stringify(state.getUserJSON(fromNumber),null, 2);
+    const adminMsg = 'User '+fromNumber+' has finished the flow with no resolution:\r\n'+stateJSON;
+    await SMS.sendAdmin(adminMsg);
+    state.initUser(fromNumber);
   } 
 }
 
-function handleInitNode(fromNumber, incomingMsg)
+
+async function initAdminMsg(fromNumber)
 {
-  // Init is special
   if(state.getUserNodeString(fromNumber) === 'init')
   {
     // Send an admin message that user has entered the flow
-    const adminMsg = 'New user: '+fromNumber+' just initialized contact.'
-    SMS.sendAdmin(adminMsg);
-    // Pass init node no matter what the original msg says
-    let targetNode = state.getUserNode(fromNumber).l;
-    state.updateUserNode(fromNumber, targetNode);
+    const adminMsg = 'New user: '+fromNumber+' just initialized contact.\r\nYou will get another message when the end the flow.'
+    await SMS.sendAdmin(adminMsg);
   }
 }
 
@@ -202,7 +203,7 @@ module.exports = {
   initQuestions,
   yesNo,
   endNodes,
-  handleInitNode,
   dumpState,
   getUserNode,
+  initAdminMsg
 };

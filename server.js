@@ -27,6 +27,10 @@ app.post('/sms', async (req, res) => {
   // Create if not
   tree.checkUser(fromNumber);
 
+  // Check if the user is on init node
+  // If so we need to send an init message to admin
+  await tree.initAdminMsg(fromNumber);
+
   // Check/Run special commands
   // And stop the loop if needed
   const stopLoop = tree.specialCommands(fromNumber, incomingMsg, res);
@@ -41,25 +45,22 @@ app.post('/sms', async (req, res) => {
   if(!tree.validNode(fromNumber)){return;}
 
   // Check if the user responded yes or no
-  // Defualts to no
+  // Defaults to no
   // Here is where we traverse the tree
   tree.yesNo(fromNumber, incomingMsg);
 
-  // Check if we are on an end node
-  // and act accordingly
-  await tree.endNodes(fromNumber, incomingMsg);
-
-  // Check if we are on the init node
-  // This has special conditions
-  tree.handleInitNode(fromNumber, incomingMsg);
+  // Create return msg
+  // Must happen before end nodes because they can clear state
+  const resMsg = tree.getUserNode(fromNumber).text;
 
   // Dump a copy of our current state
   // Used for debug and eventually to restore state
   tree.dumpState(); 
 
-  // Create return msg
-  const resMsg = tree.getUserNode(fromNumber).text;
-
+  // Check if we are on an end node
+  // and act accordingly
+  await tree.endNodes(fromNumber, incomingMsg);
+  
   // Send return msg
   SMS.respond(resMsg, res);
 });
