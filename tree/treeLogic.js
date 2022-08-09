@@ -104,6 +104,10 @@ function initQuestions(fromNumber, incomingMsg)
   //
   // Handle init questions
   //
+  if(incomingMsg === '!skip')
+  {
+    incomingMsg = 'skipped';
+  }
   switch(state.getUserNodeString(fromNumber))
   {
     case 'init_email':
