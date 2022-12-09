@@ -1,11 +1,13 @@
 # SMS Field Sales or Customer Service Bot
 Big thanks to @matdombrock for participating with this project. 
+
+#Purpose of SMS Field Sales CS Bot
 The objective of this project was to give field canvassers/sales reps a way to send me any issues with their native field application (think salesforce).  It works well and has a lot of potential in multiple fields. You’ll need to be familiar with the stack. 
+
+#Details 
 This is a NodeJS app that runs in a Docker Image. The Docker Image is available on docker hub at `matdombrock/sms-bot`.
 
-Interaction happens when a user sends a text message to the given phone number. I used 
-
-This will cause Twilio to send a request (web hook) to the express server at the `/sms` endpoint. 
+Simply stated, interaction happens when a user sends a text message to the given phone number.This will cause Twilio to send a request (web hook) to the express server at the `/sms` endpoint. 
 
 ## Stack
 * Linux
