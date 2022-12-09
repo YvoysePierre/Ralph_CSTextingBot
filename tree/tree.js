@@ -43,10 +43,10 @@ module.exports = {
         r:'init_email'
     },
     init_email:{
-        text: `Hello, thanks for sending me your issue. I'm \`Ralph\` the Canvasser app bot, with Manis Pierre at Voter-Science. We're going to help fix your app. 
+        text: `Hello, thanks for sending me your field app issue. I'm \`Ralph\` the sales field app hellp bot, with Manis Pierre. We're going to help you fix your app. 
         ${nl}First, I need to ask a few questions and have you send me the answers. 
         ${nl}--------------
-        ${nl}Please tell me your canvasser app login email address:`,
+        ${nl}Please tell me your app login:`,
         l:'init_phone_make_model',
         r:'init_phone_make_model'
     },
@@ -62,54 +62,44 @@ module.exports = {
         
     },
     init_location:{
-        text: `Please tell me the location the issue first happened:`,
+        text: `Please tell me the general location the issue first happened:`,
         l:'init_walkbook',
         r:'init_walkbook'
     },
-    init_walkbook:{
-        text: `Please tell me the walkbook you were in or the walkbook you were attempting to access when the issue occurred:`,
-        l:'init_precinct',
-        r:'init_precinct'
-    },
-    init_precinct:{
-        text: `Please tell me the precinct you were in or the precinct you were attempting to access when the issue occurred:`,
-        l:'init_contact',
-        r:'init_contact'
-    },
     init_contact:{
-        text: `Please text me the best way to reach you in case Manis needs to call or email you:`,
+        text: `Please text me the best way to contact you in case Manis needs to call or email you:`,
         l:'start',
         r:'start'
     },
     start:{
         text: `From here, I'll ask you questions, please reply with 'yes', 'y', 'no' or 'n'.
         ${nl}-------------- 
-        ${nl}Does your Canvasser App remain Open?`,
+        ${nl}Does your field app remain open, unable to close?`,
         l:'data_save',
         r: 'end_uninstall_reinstall'
     },
     data_save:{
-        text: `Does your data save while you canvass?`,
+        text: `Does your data save normally as it should?`,
         l:'gps_issue',
         r:'free_space'
     },
     gps_issue:{
-        text: `Is there a GPS issue or GPS dot issue?`,
+        text: `Is there a GPS location issue?`,
         l:'pin_fade',
         r:'happy_profit',
     },
     pin_fade:{
-        text: `Do your house pins not fade?`,
+        text: `Does the home location pins not fade correctly?`,
         l:'end_screenshot',
         r:'wrong_house',
     },
     wrong_house:{
-        text: `Does it load the wrong house pins but right address?`,
+        text: `Does it load the wrong home address?`,
         l:'end_clear_searches',
         r:'end_screenshot',
     },
     happy_profit:{
-        text: `Does it load the right house pins but wrong address?`,
+        text: `Does it load the right house address but wrong GPS location on your screen?`,
         l:'end_cash_in',
         r:'end_explain_happy_profit',
     },
@@ -121,7 +111,7 @@ module.exports = {
     
     // End Nodes
     end_screenshot:{
-        text: `Please take a screenshot of the issue and email it to Manis@Voter-Science.com.`,
+        text: `Please take a screenshot of the issue and email it to Manis@NotMyProblem.org.`,
         l:'end_resolution_n',
         r:'end_resolution_n',
     },
@@ -144,13 +134,13 @@ module.exports = {
         r:'end_resolution_n',
     },
     end_cash_in:{
-        text: `Thank you for using the Canvasser text chat bot.  
+        text: `Thank you for using Ralph the text chat bot.  
         ${nl}We're sorry for any inconvenience`,
         l:'end_resolution_y',
         r:'end_resolution_n',
     },
     end_explain_happy_profit:{
-        text: `Thank you for using the Canvasser text chat bot.  
+        text: `Thank you for using Ralph the text chat bot.  
         ${nl}We're sorry for any inconvenience`,
         l:'end_resolution_y',
         r:'end_resolution_n',
